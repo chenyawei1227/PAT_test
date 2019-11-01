@@ -9,7 +9,6 @@
 int main(){
 
 	int n,temp,sum;
-
 	scanf("%d",&n);
 	sum = 0;
 
