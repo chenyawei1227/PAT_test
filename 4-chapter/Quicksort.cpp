@@ -2,24 +2,32 @@
 * @Author: chenyawei
 * @Date:   2019-10-19 22:19:52
 * @Last Modified by:   chenyawei
-* @Last Modified time: 2019-11-01 23:00:59
+* @Last Modified time: 2019-11-02 13:38:45
+*
 */
+#include <cstdio>
+
+template <class T>
+int getArrayLen(T&array)
+{
+    return sizeof(array) / sizeof(array[0]);
+}
 
 /*
 只从左端扫描，时间复杂度为O(n2)
  */
-void quickSort(){
+void quickSort(int R[],int length){
 	int k,temp;
-	for (int i = 1; i <= n; ++i){
+	for (int i = 0; i < length; ++i){
 		k = i;
-		for (int j = i; j <= n; ++j){
-			if (num[j] < num[k]){
+		for (int j = i; j < length; ++j){
+			if (R[j] < R[k]){
 				k = j;
 			}
 		}
-		temp = num[i];
-		num[i] = num[k];
-		num[k] = temp;
+		temp = R[i];
+		R[i] = R[k];
+		R[k] = temp;
 	}
 }
 
@@ -49,8 +57,26 @@ void quickSort2(int R[],int low, int high){
 				--j;
 			}
 		}
+		R[i] = temp;
 		quickSort2(R,low,i-1);//对temp左边关键字排序
 		quickSort2(R,i+1,high);//对temp右边关键字排序
 	}
 
+}
+
+int main()
+{
+	int R[] = {11,2,3,44,5,26,73,8,9,0};
+    int length = getArrayLen(R);
+    quickSort(R,length);
+    for (int i = 0; i < length; ++i){
+    	printf("%d\n", R[i]);
+    }
+    printf("%s\n", "===============================");
+    int R1[] = {111,20,23,434,53,26,73,8,9,10};
+    quickSort2(R1,0,9);
+    for (int i = 0; i < length; ++i){
+    	printf("%d\n", R1[i]);
+    }
+	return 0;
 }
