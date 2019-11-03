@@ -2,10 +2,10 @@
 * @Author: chenyawei
 * @Date:   2019-11-02 13:21:03
 * @Last Modified by:   chenyawei
-* @Last Modified time: 2019-11-02 13:38:43
+* @Last Modified time: 2019-11-02 17:23:46
 */
 #include <cstdio>
-
+#include <algorithm>
 
 template <class T>
 int getArrayLen(T&array){
