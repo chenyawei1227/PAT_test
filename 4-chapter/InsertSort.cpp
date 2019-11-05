@@ -24,6 +24,7 @@ void insertSort(int A[],int n){
 }
 
 int main(){
+	
 	int A[] = {6,3,5,2,1,4};
 	int n = getArrayLen(A);
 	insertSort(A,n);
