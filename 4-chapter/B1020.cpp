@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 struct Goods{
     double store;
     double sell;
