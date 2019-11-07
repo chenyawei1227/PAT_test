@@ -1,82 +1,53 @@
-/*
-* @Author: chenyawei
-* @Date:   2019-10-19 22:19:52
-* @Last Modified by:   chenyawei1227
-* @Last Modified time: 2019-11-04 12:05:52
-*
-*/
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
+#include <cmath>
+using namespace std;
 
-template <class T>
-int getArrayLen(T&array)
-{
-    return sizeof(array) / sizeof(array[0]);
-}
+int partition(int A[], int left, int right){
 
-/*
-只从左端扫描，时间复杂度为O(n2)
- */
-void quickSort(int R[],int length){
-	int k,temp;
-	for (int i = 0; i < length; ++i){
-		k = i;
-		for (int j = i; j < length; ++j){
-			if (R[j] < R[k]){
-				k = j;
-			}
-		}
-		temp = R[i];
-		R[i] = R[k];
-		R[k] = temp;
-	}
-}
-
-/*
-左右两端同时扫描，递归方式，最好情况时间复杂度为O(nlog2n),最坏为O(n2)
- */
-void quickSort2(int R[],int low, int high){
-	int temp;
-	int i = low, j = high;
-	if(low < high){
-		temp = R[low];
-		while(i < j){
-			while(j > i && R[j] >= temp){
-				--j;	
-			} 
-			//跳出循环，即R[j] < temp,将R[j]放到temp的左边
-			if(i < j){
-				R[i] = R[j];
-				++i;
-			}
-			while(i < j && R[i] <= temp){
-				++i;
-			}	
-			//跳出循环，即R[i] > temp,将R[i]放到temp的右边
-			if(i < j){
-				R[j] = R[i];
-				--j;
-			}
-		}
-		R[i] = temp;
-		quickSort2(R,low,i-1);//对temp左边关键字排序
-		quickSort2(R,i+1,high);//对temp右边关键字排序
-	}
-
-}
-
-int main()
-{
-	int R[] = {11,2,3,44,5,26,73,8,9,0};
-    int length = getArrayLen(R);
-    quickSort(R,length);
-    for (int i = 0; i < length; ++i){
-    	printf("%d\n", R[i]);
+    int temp = A[left];
+    while(left < right){
+        while(left < right && A[right] > temp) right--;
+        A[left] = A[right];
+        while(left < right && A[left] <= temp ) left++;
+        A[right] = A[left];
     }
-    printf("%s\n", "===============================");
-    int R1[] = {111,20,23,434,53,26,73,8,9,10};
-    quickSort2(R1,0,9);
-    for (int i = 0; i < length; ++i){
-    	printf("%d\n", R1[i]);
+    A[left] = temp;
+    return left;
+}
+
+//优化主原没有把区间[left,right]分成两个近似的子区间:随机的选择主原
+int randPartition(int A[], int left, int right){
+    int randNum = (round(1.0*rand()/RAND_MAX*(right - left) + left));
+    printf("randNum: %d\n",randNum);
+    swap(A[randNum],A[left]);
+    int temp = A[left];
+    while(left < right){
+        while(left < right && A[right] > temp) right--;
+        A[left] = A[right];
+        while(left < right && A[left] <= temp) left++;
+        A[right] = A[left]; 
     }
-	return 0;
+    A[left] = temp;
+    return left;
+}
+
+void quickSort(int A[],int left, int right){
+    if(left < right){
+        //int pos = partition(A,left,right);
+        int pos = randPartition(A,left,right);
+        quickSort(A,left,pos - 1);
+        quickSort(A,pos + 1,right);
+    }
+}
+
+int main(){
+    int A[] = {35,18,16,72,24,65,12,88,46,28,100,66,866};
+    quickSort(A,0,9);
+    for(int i = 0; i < 10; i++){
+        printf("%d\n",A[i]);
+    }
+    return 0;
 }
